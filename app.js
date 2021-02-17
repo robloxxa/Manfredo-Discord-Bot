@@ -4,6 +4,7 @@ require('dotenv').config();
 client.on('ready', () =>{
     console.log('Manfredo ready');
 })
+let manfredo = []
 
 function findManfredo(message) {
     let manfredo = [];
@@ -16,13 +17,13 @@ function findManfredo(message) {
 }
 client.on('message', message => {
     let manfredos = findManfredo(message);
-    console.log(message.content);
+    let content = message.content.toLowerCase();
     if (message.author.bot) return;
-    if(manfredos != []) {
+    if (manfredos.length) {
         if (message.content.includes(`@!${process.env.BOT_CLIENT}`)) {
             message.channel.send(`<:${manfredos[0].name}:${manfredos[0].id}>`)
         }
-        if (message.content.toLowerCase().includes('manfredo') || message.content.toLowerCase().includes(':Manfredo:')) {
+        if (content.includes('manfredo') || content.includes(':Manfredo:') || content.includes('Мэнфредо')) {
             // for (let i in manfredos) {
             //     message.react(message.guild.emojis.cache.get(manfredos[i].id));
             // }
