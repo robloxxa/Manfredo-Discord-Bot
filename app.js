@@ -45,9 +45,6 @@ client.on('message', message => {
             message.react('😶')
         }
     }
-
-
-
 })
 
 client.login(process.env.BOT_TOKEN);
