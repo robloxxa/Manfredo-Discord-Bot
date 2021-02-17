@@ -1,9 +1,10 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
 const config = require('./config.json');
+require('dotenv');
+
 client.on('ready', () =>{
     console.log('Manfredo ready');
-    console.log();
 })
 
 function findManfredo(message) {
@@ -20,7 +21,7 @@ client.on('message', message => {
     console.log(message.content);
     if (message.author.bot) return;
     if(manfredos != []) {
-        if (message.content.includes(`@!${config.BOT_CLIENT}`)) {
+        if (message.content.includes(`@!${process.env.BOT_CLIENT}`)) {
             message.channel.send(`<:${manfredos[0].name}:${manfredos[0].id}>`)
         }
         if (message.content.toLowerCase().includes('manfredo') || message.content.toLowerCase().includes(':Manfredo:')) {
@@ -31,4 +32,4 @@ client.on('message', message => {
         }
     }
 })
-client.login(config.BOT_TOKEN);
+client.login(process.env.BOT_TOKEN);
