@@ -14,24 +14,28 @@ var options = {
   color: false,
 };
 
-async function findManfredo(message) {
+function findManfredo(message) {
   let manfredo = [];
-  await message.guild.emojis.cache.forEach((emojis) => {
-    if (emojis.name.toLowerCase().includes("manfredo")) {
-      manfredo.push(emojis);
-    }
-  });
-  return manfredo;
+  try {
+    message.guild.emojis.cache.forEach((emojis) => {
+      if (emojis.name.toLowerCase().includes("manfredo")) {
+        manfredo.push(emojis);
+      }
+      return manfredo;
+    });
+  } catch (e) {
+    return [];
+  }
 }
 
 client.on("message", (message) => {
-  let manfredos = findManfredo(message).catch();
+  let manfredos = findManfredo(message);
   let content = message.content.toLowerCase();
   if (message.author.bot) return;
   if (!content.startsWith("!")) {
     if (manfredos.length) {
       if (content.includes(`@!${process.env.BOT_CLIENT}`)) {
-        message.send(`<:${manfredos[0].name}:${manfredos[0].id}>`);
+        message.channel.send(`<:${manfredos[0].name}:${manfredos[0].id}>`);
       }
       if (content.includes("manfredo") || content.includes("мэнфредо")) {
         // for (let i in manfredos) {
