@@ -10,7 +10,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "asciify-image": "^0.1.6",
     "discord.js": "^12.5.1",
     "dotenv": "^8.2.0"
+  },
+  "prettier": {
+    "tabWidth": 2
   }
 }
