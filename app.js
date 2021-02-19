@@ -27,11 +27,20 @@ function findManfredo(message) {
   }
   return manfredo;
 }
+function hasEmout(message){
+  let emout = message.toString()
+  let emoutfinal
+  if (emout.includes("<") && emout.includes(">")){
+    emout = emout.slice(emout.indexOf('<')-1, emout.indexOf('>'))
+    emoutfinal = emout.slice(emout.lastIndexOf(':')+1, emout.length)
+    return emoutfinal
+  }
+  return false
+}
 
 client.on("message", (message) => {
   let content = message.content.toLowerCase();
   if (message.author.bot) return;
-  console.log();
   if (!content.startsWith("!")) {
     if (content.includes(`@!${process.env.BOT_CLIENT}`)) {
       let manfredos = findManfredo(message);
@@ -66,16 +75,21 @@ client.on("message", (message) => {
         message.channel.send("```" + asciified + "```");
       });
     }
-    if (content.startsWith("!asciifredo") && message.attachments.first() !== undefined) {
-      let image = message.attachments.first();
-      asciify(image.attachment, options, function (err, asciified) {
+    if (content.startsWith("!asciifredo")) {
+      let image;
+      if(message.attachments.first() !== undefined){
+        image = message.attachments.first().attachment;
+      }
+      else if(hasEmout(message)){
+        image = `https://cdn.discordapp.com/emojis/${hasEmout(message)}.png`
+      }
+      else return
+      asciify(image, options, function (err, asciified) {
         if (err) throw err;
-        //asciified.map((line) => console.log(line.join("")));
-        console.log(asciified)
-        message.channel.send("```" + asciified + "```");
+        message.channel.send("```bash" + asciified + "```");
       });
     }
   }
 });
-
+process.on('uncaughtException', (error => console.log(error)))
 client.login(process.env.BOT_TOKEN);
