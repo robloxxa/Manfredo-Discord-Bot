@@ -4,9 +4,9 @@ require("dotenv").config();
 client.on("ready", () => {
   console.log("Manfredo ready");
 });
-var asciify = require("asciify-image");
+let asciify = require("asciify-image");
 
-var options = {
+let options = {
   fit: "none",
   width: 33,
   height: 28,
@@ -21,34 +21,31 @@ function findManfredo(message) {
       if (emojis.name.toLowerCase().includes("manfredo")) {
         manfredo.push(emojis);
       }
-      return manfredo;
     });
   } catch (e) {
     return [];
   }
+  return manfredo;
 }
 
 client.on("message", (message) => {
-  let manfredos = findManfredo(message);
   let content = message.content.toLowerCase();
   if (message.author.bot) return;
   if (!content.startsWith("!")) {
-    if (manfredos.length) {
-      if (content.includes(`@!${process.env.BOT_CLIENT}`)) {
+    if (content.includes(`@!${process.env.BOT_CLIENT}`)) {
+      let manfredos = findManfredo(message);
+      if (manfredos.length)
         message.channel.send(`<:${manfredos[0].name}:${manfredos[0].id}>`);
-      }
-      if (content.includes("manfredo") || content.includes("мэнфредо")) {
-        // for (let i in manfredos) {
-        //     message.react(message.guild.emojis.cache.get(manfredos[i].id));
-        // }
-        message.react(message.guild.emojis.cache.get(manfredos[0].id));
-      }
+      else message.channel.send("🇲 🇦 🇳 🇫 🇷 🇪 🇩 🇴 😶");
     }
-    if (!manfredos.length) {
-      if (content.includes(`@!${process.env.BOT_CLIENT}`)) {
-        message.channel.send("🇲 🇦 🇳 🇫 🇷 🇪 🇩 🇴 😶");
-      }
-      if (content.includes("manfredo") || content.includes("мэнфредо")) {
+    if (content.includes("manfredo") || content.includes("мэнфредо")) {
+      // for (let i in manfredos) {
+      //     message.react(message.guild.emojis.cache.get(manfredos[i].id));
+      // }
+      let manfredos = findManfredo(message);
+      if (manfredos.length) {
+        message.react(message.guild.emojis.cache.get(manfredos[0].id));
+      } else {
         message.react("🇲");
         message.react("🇦");
         message.react("🇳");
