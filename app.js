@@ -86,7 +86,7 @@ client.on("message", (message) => {
       else return
       asciify(image, options, function (err, asciified) {
         if (err) throw err;
-        message.channel.send("```bash" + asciified + "```");
+        message.channel.send("```" + asciified + "```");
       });
     }
   }
