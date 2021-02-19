@@ -31,6 +31,7 @@ function findManfredo(message) {
 client.on("message", (message) => {
   let content = message.content.toLowerCase();
   if (message.author.bot) return;
+  console.log();
   if (!content.startsWith("!")) {
     if (content.includes(`@!${process.env.BOT_CLIENT}`)) {
       let manfredos = findManfredo(message);
@@ -62,6 +63,15 @@ client.on("message", (message) => {
       asciify("./737418513773363281.png", options, function (err, asciified) {
         if (err) throw err;
         //asciified.map((line) => console.log(line.join("")));
+        message.channel.send("```" + asciified + "```");
+      });
+    }
+    if (content.startsWith("!asciifredo") && message.attachments.first() !== undefined) {
+      let image = message.attachments.first();
+      asciify(image.attachment, options, function (err, asciified) {
+        if (err) throw err;
+        //asciified.map((line) => console.log(line.join("")));
+        console.log(asciified)
         message.channel.send("```" + asciified + "```");
       });
     }
