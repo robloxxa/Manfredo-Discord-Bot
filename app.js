@@ -75,7 +75,7 @@ client.on("message", (message) => {
     }
 });
 
-client.on('messageReactionAdd', message =>
+client.on('messageReactionAdd', message =>{
   let emoji = message._emoji
   if (message.me) return
   if(
