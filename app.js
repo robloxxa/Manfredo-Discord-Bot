@@ -66,7 +66,9 @@ client.on("message", (message) => {
             else if(hasEmout(message)){
                 image = `https://cdn.discordapp.com/emojis/${hasEmout(message)}.png`
             }
+            else return
             asciify(image, options, function (err, asciified) {
+                if (err) throw err
                 message.channel.send("```" + asciified + "```");
             });
         }
