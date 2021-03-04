@@ -13,7 +13,7 @@ let options = {
     format: "string",
     color: false,
 };
-
+    
 // function findManfredo(message) {
 //     let manfredo = [];
 //     try {
@@ -27,6 +27,7 @@ let options = {
 //     }
 //     return manfredo;
 // }
+
 function hasEmout(message){
     let emout = message.toString()
     let emoutfinal
@@ -65,13 +66,23 @@ client.on("message", (message) => {
             else if(hasEmout(message)){
                 image = `https://cdn.discordapp.com/emojis/${hasEmout(message)}.png`
             }
-            else return
             asciify(image, options, function (err, asciified) {
-                if (err) throw err;
                 message.channel.send("```" + asciified + "```");
             });
         }
     }
 });
+
+client.on('messageReactionAdd', message =>
+  let emoji = message._emoji
+  if (message.me) return
+  if(
+    emoji.name.toLowerCase().includes('manfredo')
+  )
+  {
+    message.message.react(emoji)
+  }
+})
+
 process.on('uncaughtException', (error => console.log(error)))
 client.login(process.env.BOT_TOKEN);
